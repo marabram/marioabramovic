@@ -298,7 +298,7 @@ export default function App() {
                   <p className="text-muted-foreground mb-4">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-2">
                     {project.technologies.map(
                       (tech, techIndex) => (
                         <span
@@ -309,22 +309,6 @@ export default function App() {
                         </span>
                       ),
                     )}
-                  </div>
-                  <div className="flex gap-2">
-                    <a
-                      href={project.github}
-                      className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg hover:bg-accent transition-colors"
-                    >
-                      <Github className="h-4 w-4" />
-                      Details
-                    </a>
-                    <a
-                      href={project.demo}
-                      className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                      View
-                    </a>
                   </div>
                 </div>
               </div>
@@ -384,6 +368,17 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-border py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center text-muted-foreground">
+          <div className="flex justify-center mb-4">
+            <a
+              href="https://marabram.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-primary transition-colors"
+            >
+              <Github className="h-5 w-5" />
+              View Resume
+            </a>
+          </div>
           <p>
             &copy; 2025 Mario Abramovic. All rights reserved.
           </p>
