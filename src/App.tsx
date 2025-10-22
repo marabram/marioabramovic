@@ -5,9 +5,24 @@ import {
   ExternalLink,
   MapPin,
   Phone,
+  X,
 } from "lucide-react";
+import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "./components/ui/dialog";
+import profileImage from "figma:asset/43d505a6aaa4d1ddbc26ec9e8b4ae04d71284c9f.png";
 
 export default function App() {
+  const [selectedProject, setSelectedProject] = useState<number | null>(null);
+
+  useEffect(() => {
+    document.title = "Mario Abramovic";
+  }, []);
+
   const projects = [
     {
       title: "Oracle ID Sync Platform",
@@ -21,8 +36,15 @@ export default function App() {
         "Python",
         "Data Mapping",
       ],
-      github: "#",
-      demo: "#",
+      detailedDescription: "Spearheaded a critical product optimization initiative for Oracle's ID Sync platform, a data onboarding and identity resolution system serving enterprise clients across advertising and marketing technology sectors.",
+      achievements: [
+        "Achieved 78% increase in match rates through systematic optimization of data mapping and identity resolution algorithms",
+        "Delivered 18% boost in activation rates by implementing performance monitoring and optimization workflows",
+        "Managed integration with 30+ APIs across demand-side platforms (DSPs) and data management platforms (DMPs)",
+        "Led cross-functional collaboration between engineering, product, and client success teams to define requirements and deliver features",
+        "Implemented automated monitoring and alerting systems for API performance and data quality metrics"
+      ],
+      impact: "This platform processed millions of identity records daily, directly supporting client campaigns with $1B+ in media spend. The optimization resulted in significantly improved campaign targeting and ROI for enterprise clients.",
     },
     {
       title: "Enterprise Data Pipeline",
@@ -36,8 +58,15 @@ export default function App() {
         "Cloud Infrastructure",
         "MarTech",
       ],
-      github: "#",
-      demo: "#",
+      detailedDescription: "Architected and implemented scalable data ingestion and delivery systems that formed the backbone of Oracle's data onboarding platform, enabling secure and reliable data flow for enterprise clients in the advertising ecosystem.",
+      achievements: [
+        "Designed and deployed data pipelines processing terabytes of customer data across multiple DSPs and SaaS platforms",
+        "Implemented secure cloud-based delivery mechanisms supporting both REST API and SFTP protocols",
+        "Established data quality validation frameworks ensuring 99.9% data integrity across all client deliveries",
+        "Led the technical architecture for client onboarding, reducing time-to-value from weeks to days",
+        "Created comprehensive documentation and runbooks for operational teams, reducing support escalations by 40%"
+      ],
+      impact: "These data pipelines directly supported marketing campaigns with over $1B in business impact, serving Fortune 500 companies with mission-critical data delivery requirements.",
     },
     {
       title: "Marketing Automation",
@@ -51,8 +80,15 @@ export default function App() {
         "Eloqua",
         "Automation",
       ],
-      github: "#",
-      demo: "#",
+      detailedDescription: "Developed Python-based analytics and automation tools to streamline marketing operations workflows, significantly improving response times and data accuracy for enterprise client campaigns.",
+      achievements: [
+        "Reduced client response time by 24+ hours through automated data processing and validation workflows",
+        "Improved campaign data accuracy by 46% using custom Python scripts with Pandas for data analysis and cleansing",
+        "Automated manual reporting processes in Oracle Eloqua, saving 15+ hours per week for marketing operations teams",
+        "Created reusable Python libraries for common data transformation and validation tasks",
+        "Implemented error handling and logging frameworks ensuring reliable unattended execution"
+      ],
+      impact: "These automation solutions enabled the marketing team to handle 3x more client campaigns without increasing headcount, while simultaneously improving data quality and client satisfaction scores.",
     },
   ];
 
@@ -204,8 +240,8 @@ export default function App() {
             </div>
             <div className="flex justify-center">
               <img
-                src="https://images.unsplash.com/photo-1719400471588-575b23e27bd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBkZXZlbG9wZXIlMjB3b3Jrc3BhY2V8ZW58MXx8fHwxNzU3NzA5NTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-                alt="Professional workspace"
+                src={profileImage}
+                alt="Technical Project Management Workspace"
                 className="rounded-lg shadow-lg w-full max-w-md"
               />
             </div>
@@ -258,10 +294,10 @@ export default function App() {
             <div>
               <h3 className="mb-4">Certifications</h3>
               <div className="space-y-2">
-                <span className="block px-4 py-2 bg-primary text-primary-foreground rounded-lg">
+                <span className="block px-4 py-2 bg-secondary text-secondary-foreground rounded-lg">
                   Certified Scrum Product Owner (CSPO)
                 </span>
-                <span className="block px-4 py-2 bg-accent text-accent-foreground rounded-lg">
+                <span className="block px-4 py-2 bg-secondary text-secondary-foreground rounded-lg">
                   B.Sc. Equivalency in Computer & Information
                   Systems
                 </span>
@@ -284,7 +320,8 @@ export default function App() {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                onClick={() => setSelectedProject(index)}
+                className="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-[1.02]"
               >
                 <div className="aspect-video overflow-hidden">
                   <img
@@ -314,6 +351,68 @@ export default function App() {
               </div>
             ))}
           </div>
+
+          {/* Project Detail Dialog */}
+          <Dialog open={selectedProject !== null} onOpenChange={() => setSelectedProject(null)}>
+            <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+              {selectedProject !== null && (
+                <>
+                  <DialogHeader>
+                    <DialogTitle>{projects[selectedProject].title}</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-6">
+                    <div className="aspect-video overflow-hidden rounded-lg">
+                      <img
+                        src={projects[selectedProject].image}
+                        alt={projects[selectedProject].title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    
+                    <div>
+                      <h4 className="mb-2">Overview</h4>
+                      <p className="text-muted-foreground">
+                        {projects[selectedProject].detailedDescription}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-3">Key Achievements</h4>
+                      <ul className="space-y-2">
+                        {projects[selectedProject].achievements.map((achievement, idx) => (
+                          <li key={idx} className="flex gap-3">
+                            <span className="text-primary mt-1">•</span>
+                            <span className="text-muted-foreground">{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-2">Business Impact</h4>
+                      <p className="text-muted-foreground">
+                        {projects[selectedProject].impact}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="mb-3">Technologies Used</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {projects[selectedProject].technologies.map((tech, techIndex) => (
+                          <span
+                            key={techIndex}
+                            className="px-3 py-2 bg-secondary text-secondary-foreground rounded-lg"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
@@ -368,7 +467,7 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-border py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center text-muted-foreground">
-          <div className="flex justify-center mb-4">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-4">
             <a
               href="https://marabram.github.io"
               target="_blank"
@@ -377,6 +476,41 @@ export default function App() {
             >
               <Github className="h-5 w-5" />
               View Resume
+            </a>
+            <a
+              href="https://www.figma.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-primary transition-colors"
+            >
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 38 57"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z"
+                  fill="currentColor"
+                />
+              </svg>
+              Built with Figma
             </a>
           </div>
           <p>
